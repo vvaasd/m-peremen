@@ -95,6 +95,7 @@ export const SendTaskModal = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
+        credentials: 'include',
       });
       setLastSend(payload);
 
