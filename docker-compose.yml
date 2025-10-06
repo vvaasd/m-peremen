@@ -9,4 +9,4 @@ services:
 
 networks:
   mperemen-net:
-    external: false
+    external: true
