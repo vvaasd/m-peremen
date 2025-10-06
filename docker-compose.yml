@@ -1,0 +1,12 @@
+services:
+  mperemen_frontend:
+    build: .
+    container_name: mperemen_frontend
+    ports:
+      - "8000:8000"
+    networks:
+      - mperemen-net
+
+networks:
+  mperemen-net:
+    external: false

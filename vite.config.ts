@@ -10,4 +10,8 @@ export default defineConfig({
       '@': path.resolve(process.cwd(), 'src'),
     },
   },
+  server: {
+    host: 'localhost',
+    port: 8000,
+  },
 });

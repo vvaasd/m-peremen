@@ -12,6 +12,7 @@ import { VkSvg } from './components/svg/vk';
 import { TgSvg } from './components/svg/tg';
 import { SendTaskModal } from './components/SendTaskModal';
 import { Separator } from './components/ui/separator';
+import { Toaster } from './components/ui/sonner';
 
 function App() {
   const [teamName, setTeamName] = useState<string>('');
@@ -20,6 +21,7 @@ function App() {
   return (
     <AppContext.Provider value={{ teamName, setTeamName, taskId, setTaskId }}>
       <ScrollArea className="h-dvh">
+        <Toaster />
         <div className="flex items-center justify-center min-h-dvh h-full p-4">
           <div className="rounded-4xl border w-[343px] bg-neutral-50 overflow-hidden">
             <div className="pt-4">

@@ -24,7 +24,6 @@ import {
   SelectItem,
 } from './ui/select';
 import { toast } from 'sonner';
-import { Toaster } from './ui/sonner';
 import { Loader2Icon } from 'lucide-react';
 
 export const SendTaskModal = ({
@@ -35,18 +34,22 @@ export const SendTaskModal = ({
   initialTaskId: string;
 }) => {
   const [lastSend, setLastSend] = useState<{
-    id: string;
-    taskId: string;
+    id: number;
+    taskId: number;
     team: string;
     link: string;
   }>({
-    id: '',
-    taskId: '',
+    id: -1,
+    taskId: -1,
     team: '',
     link: '',
   });
   const [link, setLink] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const userId = urlParams.get('userId')?.toString();
 
   const { teamName, setTeamName, taskId, setTaskId } = useContext(AppContext);
 
@@ -61,9 +64,15 @@ export const SendTaskModal = ({
 
     setIsLoading(true);
     try {
+      if (!userId) {
+        toast.error('Возникла ошибка при авторизации');
+        setIsLoading(false);
+        return;
+      }
+
       const payload = {
-        id: '', //!
-        taskId: taskId,
+        id: parseInt(userId),
+        taskId: parseInt(taskId),
         team: teamName,
         link: link,
       };
@@ -71,6 +80,7 @@ export const SendTaskModal = ({
       if (
         payload.taskId == lastSend.taskId &&
         payload.link == lastSend.link &&
+        payload.id == lastSend.id &&
         payload.team == lastSend.team
       ) {
         toast.error('Вы уже отправили указанные данные');
@@ -79,8 +89,7 @@ export const SendTaskModal = ({
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      await fetch('/dsadsa', {
-        //!
+      await fetch('https://мперемен.рф/api/v1/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +108,6 @@ export const SendTaskModal = ({
 
   return (
     <Dialog>
-      <Toaster></Toaster>
       <DialogTrigger asChild>
         <Button className="bg-[#6136F5] hover:bg-[#644CB8]">{text}</Button>
       </DialogTrigger>
