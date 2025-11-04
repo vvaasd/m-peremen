@@ -89,7 +89,7 @@ export const SendTaskModal = ({
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      await fetch('https://мперемен.рф/api/v1/update', {
+      const res = await fetch('https://мперемен.рф/api/v1/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,6 +97,13 @@ export const SendTaskModal = ({
         body: JSON.stringify(payload),
         credentials: 'include',
       });
+
+      if (!res.ok) {
+        toast.error('При отправке данных произошла ошибка');
+        setIsLoading(false);
+        return;
+      }
+
       setLastSend(payload);
 
       toast.success('Данные успешно отправлены');
@@ -117,7 +124,7 @@ export const SendTaskModal = ({
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                Онлайн-конкурс всероссийского
+                Онлайн-конкурс регионального
                 <br />
                 проекта «М-ПЕРЕМЕН»
               </DialogTitle>
@@ -170,7 +177,7 @@ export const SendTaskModal = ({
                 <Input
                   id="link-1"
                   name="link"
-                  placeholder="https://disk.yandex.ru"
+                  placeholder="https://vk.com"
                   value={link}
                   onChange={(event) => {
                     setLink(event.target.value);
